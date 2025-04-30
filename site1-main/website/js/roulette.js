@@ -144,15 +144,36 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Обработка результатов после завершения анимации
             setTimeout(() => {
-                // Добавляем монеты пользователю
-                if (winValue > 0) {
+                // Определяем фактическое значение, которое попало под указатель
+                const allItems = document.querySelectorAll('.roulette-item');
+                const centerX = rouletteItems.getBoundingClientRect().width / 2;
+                let closestItem = null;
+                let minDistance = Infinity;
+                
+                // Находим элемент, который наиболее близок к центру
+                Array.from(allItems).forEach(item => {
+                    const rect = item.getBoundingClientRect();
+                    const itemCenterX = rect.left + rect.width / 2;
+                    const distance = Math.abs(itemCenterX - centerX);
+                    
+                    if (distance < minDistance) {
+                        minDistance = distance;
+                        closestItem = item;
+                    }
+                });
+                
+                // Получаем фактическое значение выигрыша из элемента под указателем
+                const actualWinValue = closestItem ? parseInt(closestItem.getAttribute('data-value')) : winValue;
+                
+                // Добавляем монеты пользователю в соответствии с фактическим результатом
+                if (actualWinValue > 0) {
                     const currentCoins = parseInt(localStorage.getItem('userCoins') || 0);
-                    localStorage.setItem('userCoins', currentCoins + winValue);
+                    localStorage.setItem('userCoins', currentCoins + actualWinValue);
                     updateCoinsDisplay();
                     
                     // Показываем сообщение о выигрыше
-                    resultMessage.textContent = `Поздравляем! Вы выиграли ${winValue} монет!`;
-                    resultMessage.style.color = winValue >= 100 ? '#ffd700' : '#5cffbc';
+                    resultMessage.textContent = `Поздравляем! Вы выиграли ${actualWinValue} монет!`;
+                    resultMessage.style.color = actualWinValue >= 100 ? '#ffd700' : '#5cffbc';
                 } else {
                     // Показываем сообщение о проигрыше
                     resultMessage.textContent = 'К сожалению, вы ничего не выиграли. Попробуйте ещё раз!';
