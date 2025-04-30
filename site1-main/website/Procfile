@@ -1,0 +1,2 @@
+worker: python economy_bot.py
+web: node server.js 
