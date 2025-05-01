@@ -42,6 +42,11 @@ async function registerUserWithBot(user) {
       })
     });
     
+    if (!response.ok) {
+      const errorText = await response.text(); // Получаем текст ошибки
+      console.error(`Ошибка от API бота (${response.status}): ${errorText}`);
+      throw new Error(`Запрос к API бота провалился: статус ${response.status}`);
+    }
     const data = await response.json();
     console.log('Регистрация пользователя у бота:', data);
     return data;
@@ -65,6 +70,11 @@ async function sendNotificationToUser(discordId, message) {
       })
     });
     
+    if (!response.ok) {
+      const errorText = await response.text(); // Получаем текст ошибки
+      console.error(`Ошибка от API бота (${response.status}): ${errorText}`);
+      throw new Error(`Запрос к API бота провалился: статус ${response.status}`);
+    }
     const data = await response.json();
     console.log('Отправка уведомления пользователю:', data);
     return data;
@@ -178,9 +188,3 @@ app.use(cors());
 
 // На динамический import с async/await
 const fetch = require('node-fetch'); 
-
-// На динамический import с async/await
-import('node-fetch').then(module => {
-  const fetch = module.default;
-  // Код, использующий fetch
-}); 
