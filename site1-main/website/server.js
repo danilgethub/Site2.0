@@ -177,6 +177,9 @@ app.get('/', (req, res) => {
 app.use(cors());
 
 // На динамический import с async/await
+const fetch = require('node-fetch'); 
+
+// На динамический import с async/await
 import('node-fetch').then(module => {
   const fetch = module.default;
   // Код, использующий fetch
