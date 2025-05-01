@@ -45,7 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateUserInterface(userData) {
     // Обновление аватара
     if (userData.avatar) {
-      userAvatar.src = `https://cdn.discordapp.com/avatars/${userData.discordId}/${userData.avatar}.png`;
+      userAvatar.src = `https://cdn.discordapp.com/avatars/${userData.discordId}/${userData.avatar}.png?size=128`;
+    } else {
+      userAvatar.src = 'images/avatar-placeholder.png';
     }
     
     // Имя пользователя
