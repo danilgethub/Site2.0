@@ -28,6 +28,7 @@ SESSION_SECRET=your_random_secret_string_here
 cd website
 npm install
 npm install passport
+npm install cors
 ```
 
 ## 3. Деплой на Render
