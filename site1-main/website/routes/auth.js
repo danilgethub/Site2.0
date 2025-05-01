@@ -22,7 +22,7 @@ router.get('/discord/callback',
 
 // Выход из аккаунта
 router.get('/logout', (req, res) => {
-  req.logout((err) => {
+  req.session.destroy((err) => {
     if (err) {
       console.error('Ошибка при выходе:', err);
     }
