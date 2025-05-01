@@ -36,9 +36,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // только HTTPS в production
-    maxAge: 24 * 60 * 60 * 1000 // 1 день
-  }
+    secure: process.env.NODE_ENV === 'production', // Secure в production
+    maxAge: 1000 * 60 * 60 * 24 * 7 // Неделя
+  },
+  proxy: true // Важно для работы с Railway и другими прокси
 }));
 
 // Инициализация Passport
