@@ -171,7 +171,7 @@ app.listen(PORT, () => {
 });
 
 app.get('/', (req, res) => {
-  res.json({ status: 'Bot API running' });
+  res.json({ status: 'Bot API running', uptime: process.uptime() });
 });
 
 app.use(cors());
