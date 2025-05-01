@@ -5,6 +5,7 @@ const session = require('express-session');
 const DiscordStrategy = require('passport-discord').Strategy;
 const passport = require('passport');
 const fetch = require('node-fetch');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
@@ -172,4 +173,6 @@ app.listen(PORT, () => {
 
 app.get('/', (req, res) => {
   res.json({ status: 'Bot API running' });
-}); 
+});
+
+app.use(cors()); 
