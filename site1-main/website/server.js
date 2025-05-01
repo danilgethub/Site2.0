@@ -27,6 +27,13 @@ app.use(passport.session());
 // Конфигурация Discord-бота
 const DISCORD_BOT_API = process.env.DISCORD_BOT_API || 'http://localhost:3001';
 
+// CORS должен быть здесь, перед другими app.use и маршрутами
+app.use(cors({ 
+  origin: ['https://site2-01.onrender.com', 'http://localhost:3000'] // Убедитесь что URL сайта верный
+})); 
+
+app.use(express.json()); 
+
 // Функция для отправки данных пользователя боту
 async function registerUserWithBot(user) {
   try {
@@ -184,7 +191,16 @@ app.get('/', (req, res) => {
   res.json({ status: 'Bot API running', uptime: process.uptime() });
 });
 
-app.use(cors());
-
 // На динамический import с async/await
 const fetch = require('node-fetch'); 
+
+// Внутри app.post('/api/register-user', ...)
+try {
+    // ... ваш код ...
+    await sendWelcomeMessage(discordId); 
+    res.status(200).json({ success: true });
+} catch (error) {
+    console.error(`API Error in /api/register-user for ${discordId}:`, error);
+    // Отправляем JSON с ошибкой
+    res.status(500).json({ success: false, error: 'Внутренняя ошибка сервера при регистрации' });
+} 
