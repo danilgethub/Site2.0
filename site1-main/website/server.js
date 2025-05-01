@@ -4,7 +4,6 @@ const compression = require('compression');
 const session = require('express-session');
 const DiscordStrategy = require('passport-discord').Strategy;
 const passport = require('passport');
-const fetch = require('node-fetch');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -175,4 +174,10 @@ app.get('/', (req, res) => {
   res.json({ status: 'Bot API running' });
 });
 
-app.use(cors()); 
+app.use(cors());
+
+// На динамический import с async/await
+import('node-fetch').then(module => {
+  const fetch = module.default;
+  // Код, использующий fetch
+}); 
