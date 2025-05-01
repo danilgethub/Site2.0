@@ -29,6 +29,7 @@ router.get('/', isAuthenticated, (req, res) => {
 router.get('/api/user', isAuthenticated, (req, res) => {
   // Отправляем данные пользователя (без чувствительной информации)
   const safeUser = {
+    discordId: req.user.discordId,
     username: req.user.username,
     discriminator: req.user.discriminator,
     avatar: req.user.avatar,
