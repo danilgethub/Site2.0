@@ -204,3 +204,22 @@ try {
     // Отправляем JSON с ошибкой
     res.status(500).json({ success: false, error: 'Внутренняя ошибка сервера при регистрации' });
 } 
+
+// The issue is that this code is part of an endpoint handler that isn't async. Let's fix the endpoint definition:
+app.post('/api/register-user', async (req, res) => {
+    const { discordId } = req.body;
+    
+    if (!discordId) {
+        return res.status(400).json({ success: false, error: 'discordId не указан в теле запроса' });
+    }
+    
+    try {
+        // ... ваш код ...
+        await sendWelcomeMessage(discordId); 
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error(`API Error in /api/register-user for ${discordId}:`, error);
+        // Отправляем JSON с ошибкой
+        res.status(500).json({ success: false, error: 'Внутренняя ошибка сервера при регистрации' });
+    } 
+}); 
