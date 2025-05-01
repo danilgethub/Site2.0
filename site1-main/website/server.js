@@ -4,7 +4,6 @@ const compression = require('compression');
 const session = require('express-session');
 const DiscordStrategy = require('passport-discord').Strategy;
 const passport = require('passport');
-const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
@@ -23,73 +22,6 @@ app.use(session({
 // Инициализация Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Конфигурация Discord-бота
-const DISCORD_BOT_API = process.env.DISCORD_BOT_API || 'http://localhost:3001';
-
-// CORS должен быть здесь, перед другими app.use и маршрутами
-app.use(cors({ 
-  origin: ['https://site2-01.onrender.com', 'http://localhost:3000'] // Убедитесь что URL сайта верный
-})); 
-
-app.use(express.json()); 
-
-// Функция для отправки данных пользователя боту
-async function registerUserWithBot(user) {
-  try {
-    const response = await fetch(`${DISCORD_BOT_API}/api/register-user`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        discordId: user.id,
-        username: user.username,
-        avatarUrl: user.avatar ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png` : null
-      })
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text(); // Получаем текст ошибки
-      console.error(`Ошибка от API бота (${response.status}): ${errorText}`);
-      throw new Error(`Запрос к API бота провалился: статус ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('Регистрация пользователя у бота:', data);
-    return data;
-  } catch (error) {
-    console.error('Ошибка при регистрации пользователя у бота:', error);
-    return { error: 'Ошибка связи с ботом' };
-  }
-}
-
-// Функция для отправки уведомления пользователю
-async function sendNotificationToUser(discordId, message) {
-  try {
-    const response = await fetch(`${DISCORD_BOT_API}/api/send-notification`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        discordId,
-        message
-      })
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text(); // Получаем текст ошибки
-      console.error(`Ошибка от API бота (${response.status}): ${errorText}`);
-      throw new Error(`Запрос к API бота провалился: статус ${response.status}`);
-    }
-    const data = await response.json();
-    console.log('Отправка уведомления пользователю:', data);
-    return data;
-  } catch (error) {
-    console.error('Ошибка при отправке уведомления пользователю:', error);
-    return { error: 'Ошибка связи с ботом' };
-  }
-}
 
 // Настройка стратегии Discord
 passport.use(new DiscordStrategy({
@@ -121,16 +53,7 @@ app.use(express.static(path.join(__dirname)));
 app.get('/auth/discord', passport.authenticate('discord'));
 app.get('/auth/discord/callback', passport.authenticate('discord', {
   failureRedirect: '/'
-}), async (req, res) => {
-  try {
-    // После успешной авторизации регистрируем пользователя у бота
-    if (req.user) {
-      await registerUserWithBot(req.user);
-    }
-  } catch (error) {
-    console.error('Ошибка при регистрации пользователя:', error);
-  }
-  
+}), (req, res) => {
   res.redirect('/');
 });
 
@@ -151,32 +74,6 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// Роут для отправки уведомления пользователю
-app.post('/api/notify-user', async (req, res) => {
-  if (!req.isAuthenticated()) {
-    return res.status(401).json({ error: 'Требуется авторизация' });
-  }
-  
-  const { message } = req.body;
-  
-  if (!message) {
-    return res.status(400).json({ error: 'Сообщение не указано' });
-  }
-  
-  try {
-    const result = await sendNotificationToUser(req.user.id, message);
-    
-    if (result.error) {
-      return res.status(500).json({ error: result.error });
-    }
-    
-    res.json({ success: true });
-  } catch (error) {
-    console.error('Ошибка при отправке уведомления:', error);
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
-});
-
 // Роут для обработки всех остальных запросов
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
@@ -185,41 +82,4 @@ app.get('*', (req, res) => {
 // Запускаем сервер
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});
-
-app.get('/', (req, res) => {
-  res.json({ status: 'Bot API running', uptime: process.uptime() });
-});
-
-// На динамический import с async/await
-const fetch = require('node-fetch'); 
-
-// Внутри app.post('/api/register-user', ...)
-try {
-    // ... ваш код ...
-    await sendWelcomeMessage(discordId); 
-    res.status(200).json({ success: true });
-} catch (error) {
-    console.error(`API Error in /api/register-user for ${discordId}:`, error);
-    // Отправляем JSON с ошибкой
-    res.status(500).json({ success: false, error: 'Внутренняя ошибка сервера при регистрации' });
-} 
-
-// The issue is that this code is part of an endpoint handler that isn't async. Let's fix the endpoint definition:
-app.post('/api/register-user', async (req, res) => {
-    const { discordId } = req.body;
-    
-    if (!discordId) {
-        return res.status(400).json({ success: false, error: 'discordId не указан в теле запроса' });
-    }
-    
-    try {
-        // ... ваш код ...
-        await sendWelcomeMessage(discordId); 
-        res.status(200).json({ success: true });
-    } catch (error) {
-        console.error(`API Error in /api/register-user for ${discordId}:`, error);
-        // Отправляем JSON с ошибкой
-        res.status(500).json({ success: false, error: 'Внутренняя ошибка сервера при регистрации' });
-    } 
 }); 
