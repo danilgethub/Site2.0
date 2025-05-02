@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema({
     sparse: true
   },
   
+  // Баланс пользователя
+  balance: {
+    type: Number,
+    default: 0
+  },
+  
   // Роли и привилегии
   roles: {
     type: [String], 
