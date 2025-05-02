@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (data.canSpin) {
           // Рулетка доступна
           spinButton.disabled = false;
-          spinButton.textContent = 'Крутить рулетку';
+          spinButton.textContent = 'КРУТИ!';
           cooldownTimer.style.display = 'none';
         } else {
           // Рулетка на кулдауне
           spinButton.disabled = true;
-          spinButton.textContent = 'Подождите...';
+          spinButton.textContent = 'ПОДОЖДИТЕ...';
           cooldownTimer.style.display = 'block';
           
           // Запускаем таймер обратного отсчета
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function spinRoulette() {
     // Блокируем кнопку на время запроса
     spinButton.disabled = true;
-    spinButton.textContent = 'Запуск...';
+    spinButton.textContent = 'ЗАПУСК...';
     
     fetch('/profile/api/roulette/spin', {
       method: 'POST',
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Возвращаем кнопку в исходное состояние
       spinButton.disabled = false;
-      spinButton.textContent = 'Крутить рулетку';
+      spinButton.textContent = 'КРУТИ!';
     });
   }
   
