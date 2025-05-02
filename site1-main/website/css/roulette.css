@@ -46,12 +46,11 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 5s ease-out;
-  border-radius: 50%;
-  box-shadow: 0 0 25px rgba(140, 158, 255, 0.5);
-  border: 10px solid #2c3154;
+  border-radius: 0;
   overflow: hidden;
-  background-color: #23272a;
+  background-color: #4e5bf2;
   clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  box-shadow: 0 0 30px rgba(140, 158, 255, 0.6);
 }
 
 /* Базовый стиль для сегментов */
