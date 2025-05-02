@@ -48,32 +48,67 @@
   transition: transform 5s ease-out;
   border-radius: 50%;
   box-shadow: 0 0 25px rgba(140, 158, 255, 0.5);
-  background: linear-gradient(135deg, #5865f2, #3a42a0);
   border: 10px solid #2c3154;
   overflow: hidden;
 }
 
 .wheel-segment {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  clip-path: polygon(50% 50%, 100% 50%, 100% 0, 0 0, 0 50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-weight: bold;
-  font-size: 24px;
-  color: white;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 25%;
   transform-origin: bottom center;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20px;
+  font-weight: bold;
+  font-size: 28px;
+  color: white;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
 }
 
-.wheel-segment:nth-child(1) { transform: rotateZ(0deg); background-color: #4e5bf2; }
-.wheel-segment:nth-child(2) { transform: rotateZ(72deg); background-color: #3a42a0; }
-.wheel-segment:nth-child(3) { transform: rotateZ(144deg); background-color: #4e5bf2; }
-.wheel-segment:nth-child(4) { transform: rotateZ(216deg); background-color: #3a42a0; }
-.wheel-segment:nth-child(5) { transform: rotateZ(288deg); background-color: #4e5bf2; }
+.wheel-segment:nth-child(1) {
+  transform: rotate(0deg);
+  background-color: #4e5bf2;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.wheel-segment:nth-child(2) {
+  transform: rotate(72deg);
+  background-color: #3a42a0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.wheel-segment:nth-child(3) {
+  transform: rotate(144deg);
+  background-color: #4e5bf2;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.wheel-segment:nth-child(4) {
+  transform: rotate(216deg);
+  background-color: #3a42a0;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.wheel-segment:nth-child(5) {
+  transform: rotate(288deg);
+  background-color: #4e5bf2;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+.wheel-segment::after {
+  content: "монет";
+  display: block;
+  font-size: 14px;
+  position: absolute;
+  top: 55px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
 
 .wheel-center {
   position: absolute;
@@ -247,7 +282,13 @@
   }
   
   .wheel-segment {
-    font-size: 20px;
+    font-size: 24px;
+    padding-top: 15px;
+  }
+  
+  .wheel-segment::after {
+    font-size: 12px;
+    top: 45px;
   }
   
   .wheel-center {
