@@ -5,6 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Элементы DOM
   const spinButton = document.getElementById('spin-button');
+  const demoButton = document.getElementById('demo-button');
   const cooldownTimer = document.getElementById('cooldown-timer');
   const rouletteWheel = document.getElementById('roulette-wheel');
   const coinsBalance = document.getElementById('coins-balance');
@@ -15,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Таймер обратного отсчета
   let countdownInterval;
+  // Флаг, показывающий, что рулетка в процессе вращения
+  let isSpinning = false;
   
   // Проверка статуса рулетки при загрузке страницы
   checkRouletteStatus();
@@ -91,8 +94,15 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Вращение рулетки и получение приза
   function spinRoulette() {
-    // Блокируем кнопку на время запроса
+    // Проверяем, не вращается ли уже рулетка
+    if (isSpinning) return;
+    
+    // Устанавливаем флаг вращения
+    isSpinning = true;
+    
+    // Блокируем кнопки на время запроса
     spinButton.disabled = true;
+    demoButton.disabled = true;
     spinButton.textContent = 'ЗАПУСК...';
     
     fetch('/profile/api/roulette/spin', {
@@ -110,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(data => {
       if (data.success) {
         // Анимируем вращение колеса
-        animateWheel(data.prize, data.newBalance);
+        animateWheel(data.prize, data.newBalance, false);
       }
     })
     .catch(error => {
@@ -125,14 +135,40 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Произошла ошибка при запуске рулетки');
       }
       
-      // Возвращаем кнопку в исходное состояние
+      // Возвращаем кнопки в исходное состояние
       spinButton.disabled = false;
+      demoButton.disabled = false;
       spinButton.textContent = 'КРУТИ!';
+      isSpinning = false;
     });
   }
   
+  // Демо-вращение рулетки (без влияния на баланс)
+  function spinRouletteDemo() {
+    // Проверяем, не вращается ли уже рулетка
+    if (isSpinning) return;
+    
+    // Устанавливаем флаг вращения
+    isSpinning = true;
+    
+    // Блокируем кнопки на время вращения
+    spinButton.disabled = true;
+    demoButton.disabled = true;
+    demoButton.textContent = 'ЗАПУСК...';
+    
+    // Генерируем случайный приз для демонстрации
+    const prizes = [5, 10, 20, 50, 100];
+    const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+    
+    // Получаем текущий баланс для демонстрации (не будет изменять реальный баланс)
+    const currentBalance = parseInt(coinsBalance.textContent) || 0;
+    
+    // Анимируем вращение колеса
+    animateWheel(randomPrize, currentBalance, true);
+  }
+  
   // Анимация вращения колеса
-  function animateWheel(prize, newBalance) {
+  function animateWheel(prize, newBalance, isDemo) {
     // Определяем угол поворота в зависимости от приза
     let rotations = 8; // Увеличиваем количество полных оборотов для более эффектной анимации
     
@@ -177,15 +213,27 @@ document.addEventListener('DOMContentLoaded', function() {
       playWinSound();
       
       // Показываем модальное окно с призом
-      prizeAmount.textContent = `+${prize}`;
+      prizeAmount.textContent = isDemo ? `+${prize} (демо)` : `+${prize}`;
       prizeModal.style.display = 'flex';
       
-      // Обновляем отображение баланса
-      coinsBalance.textContent = newBalance;
-      rouletteBalance.textContent = newBalance;
+      // Обновляем отображение баланса только если это не демо-режим
+      if (!isDemo) {
+        coinsBalance.textContent = newBalance;
+        rouletteBalance.textContent = newBalance;
+      }
       
-      // Проверяем статус рулетки (перейдет в режим кулдауна)
-      checkRouletteStatus();
+      // Проверяем статус рулетки только если это не демо-режим
+      if (!isDemo) {
+        checkRouletteStatus();
+      } else {
+        // Для демо-режима просто возвращаем кнопки в исходное состояние
+        setTimeout(() => {
+          spinButton.disabled = false;
+          demoButton.disabled = false;
+          demoButton.textContent = 'ДЕМО';
+          isSpinning = false;
+        }, 500);
+      }
       
       // Сбрасываем анимацию колеса
       setTimeout(() => {
@@ -208,6 +256,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Обработчик кнопки запуска рулетки
   spinButton.addEventListener('click', function() {
     spinRoulette();
+  });
+  
+  // Обработчик кнопки демо-режима
+  demoButton.addEventListener('click', function() {
+    spinRouletteDemo();
   });
   
   // Закрытие модального окна с призом
