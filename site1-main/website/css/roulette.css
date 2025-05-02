@@ -108,6 +108,28 @@
   z-index: 1;
 }
 
+/* Специальные стили для разных номиналов */
+.segment-5 {
+  background: linear-gradient(135deg, #4e5bf2, #343d99) !important;
+}
+
+.segment-10 {
+  background: linear-gradient(135deg, #3a42a0, #252b6c) !important;
+}
+
+.segment-20 {
+  background: linear-gradient(135deg, #6877ff, #4756e8) !important;
+}
+
+.segment-50 {
+  background: linear-gradient(135deg, #343d99, #252b6c) !important;
+}
+
+.segment-100 {
+  background: linear-gradient(135deg, #7d89ff, #5865f2) !important;
+  text-shadow: 0 0 10px gold, 0 0 15px gold !important;
+}
+
 /* Добавляем метки "монет" */
 .wheel-segment::after {
   content: "монет";
