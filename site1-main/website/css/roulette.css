@@ -52,62 +52,71 @@
   overflow: hidden;
 }
 
+/* Базовый стиль для сегментов */
 .wheel-segment {
   position: absolute;
-  width: 50%;
-  height: 50%;
+  width: 150px;
+  height: 150px;
   top: 0;
-  left: 25%;
-  transform-origin: bottom center;
+  left: 75px;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 20px;
   font-weight: bold;
-  font-size: 28px;
+  font-size: 32px;
   color: white;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
+  transform-origin: bottom center;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
 }
 
+/* Стилизуем каждый сегмент отдельно */
 .wheel-segment:nth-child(1) {
-  transform: rotate(0deg);
+  transform: rotate(0deg) translateY(-75px);
   background-color: #4e5bf2;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 150px 150px 0 0;
+  z-index: 5;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .wheel-segment:nth-child(2) {
-  transform: rotate(72deg);
+  transform: rotate(72deg) translateY(-75px);
   background-color: #3a42a0;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 150px 150px 0 0;
+  z-index: 4;
 }
 
 .wheel-segment:nth-child(3) {
-  transform: rotate(144deg);
+  transform: rotate(144deg) translateY(-75px);
   background-color: #4e5bf2;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 150px 150px 0 0;
+  z-index: 3;
 }
 
 .wheel-segment:nth-child(4) {
-  transform: rotate(216deg);
+  transform: rotate(216deg) translateY(-75px);
   background-color: #3a42a0;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 150px 150px 0 0;
+  z-index: 2;
 }
 
 .wheel-segment:nth-child(5) {
-  transform: rotate(288deg);
+  transform: rotate(288deg) translateY(-75px);
   background-color: #4e5bf2;
-  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  border-radius: 150px 150px 0 0;
+  z-index: 1;
 }
 
+/* Добавляем метки "монет" */
 .wheel-segment::after {
   content: "монет";
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   position: absolute;
-  top: 55px;
-  left: 0;
-  right: 0;
+  top: 75px;
   text-align: center;
+  width: 100%;
 }
 
 .wheel-center {
@@ -125,9 +134,10 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
+  border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .wheel-pointer {
@@ -282,18 +292,26 @@
   }
   
   .wheel-segment {
-    font-size: 24px;
-    padding-top: 15px;
+    width: 125px;
+    height: 125px;
+    left: 62.5px;
+    font-size: 28px;
   }
   
+  .wheel-segment:nth-child(1) { transform: rotate(0deg) translateY(-62.5px); }
+  .wheel-segment:nth-child(2) { transform: rotate(72deg) translateY(-62.5px); }
+  .wheel-segment:nth-child(3) { transform: rotate(144deg) translateY(-62.5px); }
+  .wheel-segment:nth-child(4) { transform: rotate(216deg) translateY(-62.5px); }
+  .wheel-segment:nth-child(5) { transform: rotate(288deg) translateY(-62.5px); }
+  
   .wheel-segment::after {
-    font-size: 12px;
-    top: 45px;
+    font-size: 14px;
+    top: 60px;
   }
   
   .wheel-center {
     width: 60px;
     height: 60px;
-    font-size: 12px;
+    font-size: 14px;
   }
 } 
