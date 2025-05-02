@@ -32,12 +32,6 @@ const userSchema = new mongoose.Schema({
     sparse: true
   },
   
-  // Баланс пользователя
-  balance: {
-    type: Number,
-    default: 0
-  },
-  
   // Роли и привилегии
   roles: {
     type: [String], 
@@ -66,6 +60,20 @@ const userSchema = new mongoose.Schema({
       default: 'none'
     },
     expiresAt: Date
+  },
+  
+  // Баланс и рулетка
+  coins: {
+    type: Number,
+    default: 0
+  },
+  lastSpinTime: {
+    type: Date,
+    default: null
+  },
+  totalSpins: {
+    type: Number,
+    default: 0
   }
 });
 
