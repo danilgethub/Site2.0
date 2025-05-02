@@ -168,9 +168,8 @@
 }
 
 .roulette-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+  position: relative;
+  display: inline-block;
   margin-bottom: 15px;
 }
 
@@ -204,11 +203,14 @@
 }
 
 .demo-button {
+  position: absolute;
+  top: 0;
+  right: -55px;
   background: #ffffff;
   color: #000000;
   font-size: 12px;
   padding: 4px 10px;
-  margin-left: 10px;
+  margin-left: 0;
   letter-spacing: 0;
   border-radius: 4px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
