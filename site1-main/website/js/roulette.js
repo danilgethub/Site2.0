@@ -169,49 +169,21 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Анимация вращения колеса
   function animateWheel(prize, newBalance, isDemo) {
-    // Определяем угол поворота в зависимости от приза
-    let rotations = 8; // Увеличиваем количество полных оборотов для более эффектной анимации
+    // Определяем количество оборотов для анимации
+    const rotations = 8;
     
-    // Получаем случайный угол для дополнительной реалистичности
-    const randomAngle = Math.floor(Math.random() * 30) - 15;
-    
-    // Определяем конечный угол в зависимости от приза
-    let finalAngle;
-    switch (prize) {
-      case 5:
-        finalAngle = 0;
-        break;
-      case 10:
-        finalAngle = 72;
-        break;
-      case 20:
-        finalAngle = 144;
-        break;
-      case 50:
-        finalAngle = 216;
-        break;
-      case 100:
-        finalAngle = 288;
-        break;
-      default:
-        finalAngle = 0;
-    }
+    // Добавляем случайный угол для реалистичности
+    const randomAngle = Math.floor(Math.random() * 360);
     
     // Рассчитываем общий угол поворота
-    const totalAngle = (rotations * 360) + finalAngle + randomAngle;
+    const totalAngle = (rotations * 360) + randomAngle;
     
     // Добавляем стиль анимации (плавное замедление к концу)
     rouletteWheel.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.89, 0.98)';
     rouletteWheel.style.transform = `rotate(${totalAngle}deg)`;
     
-    // Добавляем звуковой эффект вращения (если он есть)
-    playSpinSound();
-    
     // После завершения анимации
     setTimeout(() => {
-      // Воспроизводим звук выигрыша
-      playWinSound();
-      
       // Показываем модальное окно с призом
       prizeAmount.textContent = isDemo ? `+${prize} (демо)` : `+${prize}`;
       prizeModal.style.display = 'flex';
@@ -240,17 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
         rouletteWheel.style.transition = 'none';
         rouletteWheel.style.transform = 'rotate(0deg)';
       }, 500);
-    }, 5000); // Увеличиваем время до появления окна с призом (соответствует длине анимации)
-  }
-  
-  // Функция для воспроизведения звука вращения
-  function playSpinSound() {
-    // Можно добавить в будущем
-  }
-  
-  // Функция для воспроизведения звука выигрыша
-  function playWinSound() {
-    // Можно добавить в будущем
+    }, 5000); // Время анимации
   }
   
   // Обработчик кнопки запуска рулетки
