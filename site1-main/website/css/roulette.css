@@ -1,0 +1,258 @@
+/* Стили для рулетки */
+.roulette-section {
+  background-color: #36393f;
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  border: 1px solid rgba(140, 158, 255, 0.2);
+}
+
+.roulette-section h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: 18px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.roulette-section h3:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 2px;
+  background: #5865f2;
+  box-shadow: 0 0 10px rgba(140, 158, 255, 0.5);
+}
+
+.roulette-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto 30px;
+  perspective: 1000px;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 5s ease-out;
+  border-radius: 50%;
+  box-shadow: 0 0 25px rgba(140, 158, 255, 0.5);
+  background: linear-gradient(135deg, #5865f2, #3a42a0);
+  border: 10px solid #2c3154;
+  overflow: hidden;
+}
+
+.wheel-segment {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  clip-path: polygon(50% 50%, 100% 50%, 100% 0, 0 0, 0 50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  color: white;
+  transform-origin: bottom center;
+}
+
+.wheel-segment:nth-child(1) { transform: rotateZ(0deg); background-color: #4e5bf2; }
+.wheel-segment:nth-child(2) { transform: rotateZ(72deg); background-color: #3a42a0; }
+.wheel-segment:nth-child(3) { transform: rotateZ(144deg); background-color: #4e5bf2; }
+.wheel-segment:nth-child(4) { transform: rotateZ(216deg); background-color: #3a42a0; }
+.wheel-segment:nth-child(5) { transform: rotateZ(288deg); background-color: #4e5bf2; }
+
+.wheel-center {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #2c3154;
+  border-radius: 50%;
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.wheel-pointer {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: #f14668;
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  z-index: 10;
+}
+
+.spin-button {
+  background: linear-gradient(135deg, #5865f2, #3a42a0);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.spin-button:hover {
+  background: linear-gradient(135deg, #4752c4, #2c3154);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.spin-button:disabled {
+  background: linear-gradient(135deg, #666, #444);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+.cooldown-timer {
+  margin-top: 15px;
+  color: #b9bbbe;
+  font-size: 14px;
+  position: relative;
+  height: 20px;
+}
+
+.prize-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  animation: fadeIn 0.5s;
+}
+
+.prize-content {
+  background: linear-gradient(135deg, #5865f2, #3a42a0);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(140, 158, 255, 0.7);
+  transform: scale(0.8);
+  animation: scaleUp 0.5s forwards 0.2s;
+  max-width: 90%;
+  width: 400px;
+}
+
+.prize-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+  color: gold;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+  animation: pulse 1s infinite alternate;
+}
+
+.prize-amount {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.prize-message {
+  color: #ddd;
+  margin-bottom: 25px;
+  font-size: 18px;
+}
+
+.close-prize-btn {
+  background-color: #f14668;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.close-prize-btn:hover {
+  background-color: #e13d5c;
+  transform: translateY(-2px);
+}
+
+.coins-balance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 18px;
+  color: white;
+}
+
+.coins-icon {
+  font-size: 24px;
+  color: gold;
+  margin-right: 10px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  to { transform: scale(1); }
+}
+
+@keyframes pulse {
+  from { transform: scale(1); text-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }
+  to { transform: scale(1.1); text-shadow: 0 0 20px rgba(255, 215, 0, 0.9); }
+}
+
+/* Адаптивность */
+@media (max-width: 500px) {
+  .roulette-container {
+    width: 250px;
+    height: 250px;
+  }
+  
+  .wheel-segment {
+    font-size: 20px;
+  }
+  
+  .wheel-center {
+    width: 60px;
+    height: 60px;
+    font-size: 12px;
+  }
+} 
