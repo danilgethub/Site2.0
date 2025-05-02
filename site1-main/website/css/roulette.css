@@ -50,101 +50,94 @@
   box-shadow: 0 0 25px rgba(140, 158, 255, 0.5);
   border: 10px solid #2c3154;
   overflow: hidden;
+  background-color: #23272a;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
 /* Базовый стиль для сегментов */
 .wheel-segment {
   position: absolute;
-  width: 150px;
-  height: 150px;
-  top: 0;
-  left: 75px;
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 32px;
   color: white;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.9);
-  transform-origin: bottom center;
+  background-color: #4e5bf2;
+  transform-origin: center;
   border: 2px dashed rgba(255, 255, 255, 0.3);
   box-sizing: border-box;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
 }
 
-/* Стилизуем каждый сегмент отдельно */
-.wheel-segment:nth-child(1) {
-  transform: rotate(0deg) translateY(-75px);
-  background-color: #4e5bf2;
-  border-radius: 150px 150px 0 0;
-  z-index: 5;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+/* Стили для значений призов */
+.prize-value {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 3px;
+  display: block;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
 }
 
-.wheel-segment:nth-child(2) {
-  transform: rotate(72deg) translateY(-75px);
-  background-color: #3a42a0;
-  border-radius: 150px 150px 0 0;
-  z-index: 4;
+.prize-text {
+  font-size: 14px;
+  display: block;
 }
 
-.wheel-segment:nth-child(3) {
-  transform: rotate(144deg) translateY(-75px);
-  background-color: #4e5bf2;
-  border-radius: 150px 150px 0 0;
-  z-index: 3;
-}
-
-.wheel-segment:nth-child(4) {
-  transform: rotate(216deg) translateY(-75px);
-  background-color: #3a42a0;
-  border-radius: 150px 150px 0 0;
-  z-index: 2;
-}
-
-.wheel-segment:nth-child(5) {
-  transform: rotate(288deg) translateY(-75px);
-  background-color: #4e5bf2;
-  border-radius: 150px 150px 0 0;
-  z-index: 1;
+/* 100 монет выделяем особо */
+.segment-100 .prize-value {
+  text-shadow: 0 0 10px gold, 0 0 15px gold;
+  color: gold;
 }
 
 /* Специальные стили для разных номиналов */
 .segment-5 {
-  background: linear-gradient(135deg, #4e5bf2, #343d99) !important;
+  transform: rotate(0deg);
+  background: #4e5bf2;
+}
+.segment-5 .prize-value, .segment-5 .prize-text {
+  transform: rotate(0deg);
 }
 
 .segment-10 {
-  background: linear-gradient(135deg, #3a42a0, #252b6c) !important;
+  transform: rotate(72deg);
+  background: #3a42a0;
+}
+.segment-10 .prize-value, .segment-10 .prize-text {
+  transform: rotate(-72deg);
 }
 
 .segment-20 {
-  background: linear-gradient(135deg, #6877ff, #4756e8) !important;
+  transform: rotate(144deg);
+  background: #4e5bf2;
+}
+.segment-20 .prize-value, .segment-20 .prize-text {
+  transform: rotate(-144deg);
 }
 
 .segment-50 {
-  background: linear-gradient(135deg, #343d99, #252b6c) !important;
+  transform: rotate(216deg);
+  background: #3a42a0;
+}
+.segment-50 .prize-value, .segment-50 .prize-text {
+  transform: rotate(-216deg);
 }
 
 .segment-100 {
-  background: linear-gradient(135deg, #7d89ff, #5865f2) !important;
-  text-shadow: 0 0 10px gold, 0 0 15px gold !important;
+  transform: rotate(288deg);
+  background: #4e5bf2;
 }
-
-/* Добавляем метки "монет" */
-.wheel-segment::after {
-  content: "монет";
-  display: block;
-  font-size: 16px;
-  position: absolute;
-  top: 75px;
-  text-align: center;
-  width: 100%;
+.segment-100 .prize-value, .segment-100 .prize-text {
+  transform: rotate(-288deg);
 }
 
 .wheel-center {
   position: absolute;
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -174,7 +167,14 @@
   z-index: 10;
 }
 
-.spin-button {
+.roulette-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.spin-button, .demo-button {
   background: linear-gradient(135deg, #5865f2, #3a42a0);
   color: white;
   border: none;
@@ -184,19 +184,31 @@
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.spin-button:hover {
-  background: linear-gradient(135deg, #4752c4, #2c3154);
+.demo-button {
+  background: linear-gradient(135deg, #6b6b6b, #494949);
+  font-size: 14px;
+  padding: 8px 20px;
+}
+
+.spin-button:hover, .demo-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-.spin-button:disabled {
+.spin-button:hover {
+  background: linear-gradient(135deg, #4752c4, #2c3154);
+}
+
+.demo-button:hover {
+  background: linear-gradient(135deg, #585858, #333333);
+}
+
+.spin-button:disabled, .demo-button:disabled {
   background: linear-gradient(135deg, #666, #444);
   cursor: not-allowed;
   transform: none;
@@ -314,26 +326,30 @@
   }
   
   .wheel-segment {
-    width: 125px;
-    height: 125px;
-    left: 62.5px;
-    font-size: 28px;
+    font-size: 14px;
   }
   
-  .wheel-segment:nth-child(1) { transform: rotate(0deg) translateY(-62.5px); }
-  .wheel-segment:nth-child(2) { transform: rotate(72deg) translateY(-62.5px); }
-  .wheel-segment:nth-child(3) { transform: rotate(144deg) translateY(-62.5px); }
-  .wheel-segment:nth-child(4) { transform: rotate(216deg) translateY(-62.5px); }
-  .wheel-segment:nth-child(5) { transform: rotate(288deg) translateY(-62.5px); }
+  .prize-value {
+    font-size: 26px;
+  }
   
-  .wheel-segment::after {
-    font-size: 14px;
-    top: 60px;
+  .prize-text {
+    font-size: 12px;
   }
   
   .wheel-center {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     font-size: 14px;
+  }
+  
+  .roulette-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .spin-button, .demo-button {
+    width: 100%;
+    max-width: 200px;
   }
 } 
