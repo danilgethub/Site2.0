@@ -6,6 +6,7 @@
     <title>Профиль - MineStory</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/roulette.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 </head>
@@ -60,6 +61,13 @@
                                 <button id="edit-username" class="edit-btn">Изменить</button>
                             </div>
                         </div>
+                        <div class="info-item">
+                            <span class="label">Баланс монет:</span>
+                            <div class="coins-balance">
+                                <i class="fas fa-coins coins-icon"></i>
+                                <span class="value" id="coins-balance">0</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -73,6 +81,32 @@
                         <!-- Если есть подписка, будет добавлено через JavaScript -->
                     </div>
                 </div>
+            </div>
+
+            <!-- Рулетка с монетами -->
+            <div class="roulette-section">
+                <h3>Рулетка с монетами</h3>
+                <p>Крутите рулетку каждые 5 часов и выигрывайте монеты!</p>
+                
+                <div class="coins-balance">
+                    <i class="fas fa-coins coins-icon"></i>
+                    <span id="roulette-balance">0</span>
+                </div>
+
+                <div class="roulette-container">
+                    <div class="wheel-pointer"></div>
+                    <div class="wheel" id="roulette-wheel">
+                        <div class="wheel-segment">5</div>
+                        <div class="wheel-segment">10</div>
+                        <div class="wheel-segment">20</div>
+                        <div class="wheel-segment">50</div>
+                        <div class="wheel-segment">100</div>
+                        <div class="wheel-center">КРУТИ!</div>
+                    </div>
+                </div>
+
+                <button id="spin-button" class="spin-button">Крутить рулетку</button>
+                <div class="cooldown-timer" id="cooldown-timer"></div>
             </div>
         </div>
     </section>
@@ -89,6 +123,18 @@
                 </div>
                 <button type="submit" class="btn">Сохранить</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно для отображения выигрыша -->
+    <div id="prize-modal" class="prize-animation" style="display: none;">
+        <div class="prize-content">
+            <div class="prize-icon">
+                <i class="fas fa-coins"></i>
+            </div>
+            <div class="prize-amount" id="prize-amount">+50</div>
+            <div class="prize-message">Поздравляем! Вы выиграли монеты!</div>
+            <button class="close-prize-btn" id="close-prize-btn">Забрать</button>
         </div>
     </div>
 
@@ -112,5 +158,6 @@
     </footer>
 
     <script src="js/profile.js"></script>
+    <script src="js/roulette.js"></script>
 </body>
 </html> 
