@@ -11,33 +11,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Цены по периодам для MS+
     const prices = {
-        msplus: {
-            monthly: 300,
-            quarterly: 800,  // скидка за 3 месяца
-            yearly: 3000     // скидка за год
+        hearts: {
+            monthly: 99,
+            quarterly: 99,
+            yearly: 99
         },
         title: {
-            monthly: 100,    // скидка 50%
-            quarterly: 100,
-            yearly: 100
+            monthly: 79,
+            quarterly: 79,
+            yearly: 79
         },
         size: {
-            monthly: 50,     // скидка 50%
-            quarterly: 50,
-            yearly: 50
+            monthly: 59,
+            quarterly: 59,
+            yearly: 59
+        },
+        unban: {
+            monthly: 59,
+            quarterly: 59,
+            yearly: 59
         }
     };
 
     // Названия пакетов
     const packageNames = {
-        msplus: 'MineStory Plus',
+        hearts: '+2 Сердца навсегда',
         title: 'Титул',
-        size: 'Изменение размера'
+        size: 'Изменение размера',
+        unban: 'Разбан'
     };
     
     // Текущий выбранный период подписки
     let currentPeriod = 'monthly';
-    let currentPackage = 'msplus';
+    let currentPackage = 'hearts';
     
     // Обработчик нажатия на опцию подписки
     subscriptionOptions.forEach(option => {
@@ -61,8 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Функция обновления отображаемой цены
     function updatePrice() {
-        if (currentPackage === 'msplus') {
-            msplusPrice.textContent = `${prices[currentPackage][currentPeriod]} ₽`;
+        if (currentPackage === 'hearts') {
+            // Если этот элемент существует, обновляем его содержимое
+            if (document.querySelector('.package.popular .discounted-price')) {
+                document.querySelector('.package.popular .discounted-price').textContent = `${prices[currentPackage][currentPeriod]} ₽`;
+            }
         }
     }
     
