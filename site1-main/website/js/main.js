@@ -7,29 +7,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const packagePrice = document.getElementById('package-price');
     const paymentForm = document.getElementById('payment-form');
     const msplusPrice = document.getElementById('msplus-price');
-    const subscriptionOptions = document.querySelectorAll('.subscription-option');
 
-    // Цены по периодам для MS+
+    // Цены по периодам для товаров
     const prices = {
         hearts: {
-            monthly: 99,
-            quarterly: 99,
-            yearly: 99
+            price: 99,
         },
         title: {
-            monthly: 79,
-            quarterly: 79,
-            yearly: 79
+            price: 79,
         },
         size: {
-            monthly: 59,
-            quarterly: 59,
-            yearly: 59
+            price: 59,
         },
         unban: {
-            monthly: 59,
-            quarterly: 59,
-            yearly: 59
+            price: 59,
         }
     };
 
@@ -41,55 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
         unban: 'Разбан'
     };
     
-    // Текущий выбранный период подписки
-    let currentPeriod = 'monthly';
+    // Текущий выбранный пакет
     let currentPackage = 'hearts';
     
-    // Обработчик нажатия на опцию подписки
-    subscriptionOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Удаляем активный класс у всех опций
-            subscriptionOptions.forEach(opt => opt.classList.remove('active'));
-            
-            // Добавляем активный класс выбранной опции
-            this.classList.add('active');
-            
-            // Обновляем текущий период
-            currentPeriod = this.dataset.period;
-            
-            // Обновляем цену на кнопке
-            updatePrice();
-            
-            // Обновляем атрибут data-period у кнопки
-            document.querySelector('.buy-btn').setAttribute('data-period', currentPeriod);
-        });
-    });
-    
-    // Функция обновления отображаемой цены
-    function updatePrice() {
-        if (currentPackage === 'hearts') {
-            // Если этот элемент существует, обновляем его содержимое
-            if (document.querySelector('.package.popular .discounted-price')) {
-                document.querySelector('.package.popular .discounted-price').textContent = `${prices[currentPackage][currentPeriod]} ₽`;
-            }
-        }
-    }
-    
-    // Функция для получения названия периода в читаемом виде
-    function getPeriodName(period) {
-        switch(period) {
-            case 'monthly': return '1 месяц';
-            case 'quarterly': return '3 месяца';
-            case 'yearly': return '1 год';
-            default: return '1 месяц';
-        }
-    }
-
     // Обработчик нажатия на кнопку "Купить"
     buyButtons.forEach(button => {
         button.addEventListener('click', function() {
             currentPackage = button.dataset.package;
-            const price = button.dataset.price || prices[currentPackage][currentPeriod];
+            const price = button.dataset.price || prices[currentPackage].price;
             
             document.getElementById('selected-package').textContent = packageNames[currentPackage];
             document.getElementById('package-price').textContent = price;
@@ -98,9 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (document.getElementById('card-amount')) document.getElementById('card-amount').textContent = price;
             if (document.getElementById('yoomoney-amount')) document.getElementById('yoomoney-amount').textContent = price;
             
-            // Добавляем скрытые поля с типом пакета и периодом
+            // Добавляем скрытые поля с типом пакета
             let packageInput = document.getElementById('package-type');
-            let periodInput = document.getElementById('subscription-period');
             
             if (!packageInput) {
                 packageInput = document.createElement('input');
@@ -110,16 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 paymentForm.appendChild(packageInput);
             }
             
-            if (!periodInput) {
-                periodInput = document.createElement('input');
-                periodInput.type = 'hidden';
-                periodInput.id = 'subscription-period';
-                periodInput.name = 'subscription-period';
-                paymentForm.appendChild(periodInput);
-            }
-            
             packageInput.value = currentPackage;
-            periodInput.value = currentPeriod;
             
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden'; // Запрещаем прокрутку страницы
