@@ -65,15 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             packageInput.value = currentPackage;
             
-            // Специальная обработка для пакета двойного прыжка
-            if (currentPackage === 'doublejump') {
-                // Показываем демонстрацию эффекта
-                setTimeout(() => {
-                    if (typeof window.activateDoubleJump === 'function') {
-                        window.activateDoubleJump();
-                    }
-                }, 500);
-            }
+
             
             modal.style.display = 'block';
             document.body.style.overflow = 'hidden'; // Запрещаем прокрутку страницы
